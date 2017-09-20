@@ -104,14 +104,14 @@ class ModelMetaclass(type):
 		for k, v in attrs.items():
 			if isinstance(v, Field):
 				logging.info(' found mapping: %s ==> %s' % (k, v))
-				mapping[k] = v
+				mappings[k] = v
 				if v.primary_key:
 					#找到主键
 					if primaryKey:
 						raise StandardError('Duplicate primary key for field:%s' % k)
 					primaryKey = k
 				else:
-					field.append(k)
+					fields.append(k)
 		if not primaryKey:
 			raise StandardError('Primary key not found.')
 		for k in mappings.keys():
