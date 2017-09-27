@@ -23,6 +23,8 @@ async def create_pool(loop, **kw):
 		loop = loop
 	)
 
+
+
 async def select(sql, args, size=None):
 	log(sql, args)
 	global __pool
@@ -35,7 +37,6 @@ async def select(sql, args, size=None):
 				rs = await cur.fetchall()
 		logging.info('rows returned:%s' % len(rs))
 		return rs
-
 
 async def execute(sql, args, autocommit=True):
 	log(sql)
@@ -61,7 +62,7 @@ def create_args_string(num):
 	return', '.join(L)
 
 class Field(object):
-	"""docstring for Field"""
+	
 	def __init__(self, name, column_type, primary_key, default):
 		self.name = name
 		self.column_type = column_type
@@ -75,17 +76,20 @@ class StringField(Field):
 	def __init__(self, name=None, primary_key=False, default=None, ddl='varchar(100)'):
 		super().__init__(name, ddl, primary_key, default)
 
-class BoolearnField(Field):	
-	def __init__(self, name=None, default=False):
-		super().__init__(name, 'boolean', False, default)
-		
-class IntegerField(Field):	
-	def __init__(self, name=None, primary_key=False, default = 0):
-		super().__init__(name, 'bigint', primary_key, default)
-		
-class FloatField(Field):	
-	def __init__(self, name=None, primary_key=False, default = 0.0):
-		super().__init__(name, 'real', primary_key, default)		
+class BooleanField(Field):
+
+    def __init__(self, name=None, default=False):
+        super().__init__(name, 'boolean', False, default)
+
+class IntegerField(Field):
+
+    def __init__(self, name=None, primary_key=False, default=0):
+        super().__init__(name, 'bigint', primary_key, default)
+
+class FloatField(Field):
+
+    def __init__(self, name=None, primary_key=False, default=0.0):
+        super().__init__(name, 'real', primary_key, default)
 
 class TextField(Field):	
 	def __init__(self, name=None, default = None):

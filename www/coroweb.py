@@ -110,7 +110,7 @@ class RequestHandler(object):
 		if kw is None:
 			kw = dict(**request.match_info)
 		else:
-			if not self._has_named_kw_args and self._named_kw_args:
+			if not self._has_var_kw_arg and self._named_kw_args:
 				copy = dict()
 				for name in self._named_kw_args:
 					if name in kw:
@@ -148,7 +148,7 @@ def add_route(app, fn):
 		raise ValueError('@get or @post not defined in %s.' % str(fn))
 	if not asyncio.iscoroutinefunction(fn) and not inspect.isgeneratorfunction(fn):
 		fn = asyncio.coroutine(fn)
-	logging.info('add router %s %s => %s(%s)' % (method,path,fn.__name__, ','.join(inspect.signature(fn).parameters.keys())))
+	logging.info('add route %s %s => %s(%s)' % (method,path,fn.__name__, ','.join(inspect.signature(fn).parameters.keys())))
 	app.router.add_route(method, path, RequestHandler(app, fn))
 
 def add_routes(app, module_name):
